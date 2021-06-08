@@ -1,19 +1,14 @@
 spring:
   application:
     name:  greeting-service
+  config:
+    import:
+      - optional:configserver:http://localhost:8888/
 
+  profiles:
+    active:
+      - prod
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - '*'
 
 server:
   port: 18080
-
-
-greeting-service:
-  greeting: "Olá"
-  default-value: "Mundo"
