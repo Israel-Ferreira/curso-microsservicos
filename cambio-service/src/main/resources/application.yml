@@ -1,0 +1,17 @@
+server:
+  port: 8004
+
+spring:
+  application:
+    name: cambio-service
+
+  datasource:
+    url: "jdbc:h2:mem:cambio-db"
+    username: "sa"
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
