@@ -1,22 +1,28 @@
 package io.codekaffee.cambioservice.models;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "cambio")
 public class Cambio implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "from_currency", nullable = false, length = 3)
     private String from;
 
+    @Column(name = "to_currency", nullable = false, length = 3)
     private String to;
 
+    @Column(nullable = false)
     private BigDecimal conversionFactor;
-    private BigDecimal convertedValue;
 
-    private String environment;
 
     public Cambio() { }
 
@@ -25,7 +31,6 @@ public class Cambio implements Serializable {
         this.from = from;
         this.to = to;
         this.conversionFactor = conversionFactor;
-        this.convertedValue = convertedValue;
     }
 
     public Long getId() {
@@ -60,22 +65,6 @@ public class Cambio implements Serializable {
         this.conversionFactor = conversionFactor;
     }
 
-    public BigDecimal getConvertedValue() {
-        return convertedValue;
-    }
-
-    public void setConvertedValue(BigDecimal convertedValue) {
-        this.convertedValue = convertedValue;
-    }
-
-    public String getEnvironment() {
-        return environment;
-    }
-
-    public void setEnvironment(String environment) {
-        this.environment = environment;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,13 +73,9 @@ public class Cambio implements Serializable {
         Cambio cambio = (Cambio) o;
 
         if (getId() != null ? !getId().equals(cambio.getId()) : cambio.getId() != null) return false;
-        if (getFrom() != null ? !getFrom().equals(cambio.getFrom()) : cambio.getFrom() != null) return false;
-        if (getTo() != null ? !getTo().equals(cambio.getTo()) : cambio.getTo() != null) return false;
-        if (getConversionFactor() != null ? !getConversionFactor().equals(cambio.getConversionFactor()) : cambio.getConversionFactor() != null)
-            return false;
-        if (getConvertedValue() != null ? !getConvertedValue().equals(cambio.getConvertedValue()) : cambio.getConvertedValue() != null)
-            return false;
-        return getEnvironment() != null ? getEnvironment().equals(cambio.getEnvironment()) : cambio.getEnvironment() == null;
+        if (!getFrom().equals(cambio.getFrom())) return false;
+        if (!getTo().equals(cambio.getTo())) return false;
+        return getConversionFactor().equals(cambio.getConversionFactor());
     }
 
     @Override
