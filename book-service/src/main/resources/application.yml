@@ -1,0 +1,22 @@
+server:
+  port: 8100
+
+spring:
+  application:
+    name: book-service
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost:13308/book-service-db"
+    username: "root"
+    password: "root12345"
+
+
+
+  flyway:
+    url: "jdbc:mysql://localhost:13308/"
+    schemas:
+      - book-service-db
+    user: "root"
+    password: "root12345"
