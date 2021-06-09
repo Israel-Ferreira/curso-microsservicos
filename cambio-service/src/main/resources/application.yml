@@ -6,12 +6,21 @@ spring:
     name: cambio-service
 
   datasource:
-    url: "jdbc:h2:mem:cambio-db"
-    username: "sa"
-    password: ""
+    url: "jdbc:mysql://localhost:13307/cambio-service-db?useTimezone=true&serverTimezone=UTC"
+    username: "root"
+    password: "root12345"
 
   jpa:
     hibernate:
       ddl-auto: update
+
+    show-sql: true
+
+
+  flyway:
+    url: "jdbc:mysql://localhost:13307/"
+    schemas: "cambio-service-db"
+    user: root
+    password: "root12345"
 
 
