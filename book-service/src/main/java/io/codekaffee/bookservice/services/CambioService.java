@@ -1,5 +1,6 @@
 package io.codekaffee.bookservice.services;
 
+import io.codekaffee.bookservice.clients.CambioFeignClient;
 import io.codekaffee.bookservice.models.Cambio;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +14,14 @@ import org.springframework.web.client.RestTemplate;
 public class CambioService {
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${cambio-service.url}")
-    private String url;
+    private CambioFeignClient cambioFeignClient;
 
     @Value("${cambio-service.default-from-value}")
     private String from;
 
     public Cambio getCurrency(String to, Double price){
-        String requestUrl = url + "?from=" + from + "&to=" + to + "&amount=" + price;
-
         log.info("Price: " + price);
-        log.info("Request Url: " + requestUrl);
-
-        ResponseEntity<Cambio> rst =  restTemplate.getForEntity(requestUrl, Cambio.class);
+        ResponseEntity<Cambio> rst =  cambioFeignClient.getCambio(from, to, price);
 
         return rst.getBody();
     }
