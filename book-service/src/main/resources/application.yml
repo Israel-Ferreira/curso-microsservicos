@@ -1,6 +1,10 @@
 server:
   port: 8100
 
+cambio-service:
+  url: 'http://localhost:8004/cambio-service/convert'
+  default-from-value: 'USD'
+
 spring:
   application:
     name: book-service
@@ -20,3 +24,6 @@ spring:
       - book-service-db
     user: "root"
     password: "root12345"
+
+
+

@@ -1,24 +1,56 @@
 package io.codekaffee.bookservice.controllers;
 
+import io.codekaffee.bookservice.dto.BookDTO;
 import io.codekaffee.bookservice.models.Book;
+import io.codekaffee.bookservice.models.Cambio;
+import io.codekaffee.bookservice.services.BookService;
+import io.codekaffee.bookservice.services.CambioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/book-service")
 public class BooksController {
 
+
+    private final Environment env;
+    private final BookService bookService;
+    private final CambioService cambioService;
+
+    @Autowired
+    public BooksController(Environment env, BookService bookService, CambioService cambioService){
+        this.env = env;
+        this.bookService = bookService;
+        this.cambioService = cambioService;
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Book> findBook(@PathVariable("id") Long id, @RequestParam(value = "currency", required = true) String currency ){
-        LocalDate date =  LocalDate.of(1996,8,1);
+    public ResponseEntity<BookDTO> findBook(@PathVariable("id") Long id, @RequestParam(value = "currency", required = true, defaultValue = "BRL") String currency ){
+        Book book = bookService.findBookById(id);
+        Cambio cambio = cambioService.getCurrency(currency, book.getPrice());
+
+        String port = env.getProperty("server.port");
+
+        BookDTO bookDTO = new BookDTO(book, currency, port);
+        bookDTO.setPrice(cambio.getConvertedValue());
+
+        return ResponseEntity.ok(bookDTO);
+    }
 
 
-        Double price = 35.00;
+    @PostMapping
+    public ResponseEntity<?> createBook(BookDTO bookDTO){
+        Book book = bookService.createBook(bookDTO);
 
-        Book book = new Book(id, "A Game Of Thrones","George R.R Martin", date, price, "BRL");
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/" + book.getId())
+                .build().toUri();
 
-        return ResponseEntity.ok(book);
+        return ResponseEntity.created(uri).build();
     }
 }
