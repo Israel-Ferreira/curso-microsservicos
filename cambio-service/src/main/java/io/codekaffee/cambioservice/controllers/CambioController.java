@@ -1,7 +1,6 @@
 package io.codekaffee.cambioservice.controllers;
 
 import io.codekaffee.cambioservice.dto.CambioDTO;
-import io.codekaffee.cambioservice.models.Cambio;
 import io.codekaffee.cambioservice.services.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
