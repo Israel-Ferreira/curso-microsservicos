@@ -1,5 +1,6 @@
+#${PORT:0}
 server:
-  port: ${PORT:0}
+  port: 8100
 
 eureka:
   instance:
@@ -10,7 +11,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 cambio-service:
-  url: 'http://localhost:8004/cambio-service/convert'
   default-from-value: 'USD'
 
 spring:
