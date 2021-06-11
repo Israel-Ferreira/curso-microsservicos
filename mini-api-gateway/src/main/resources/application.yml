@@ -10,9 +10,3 @@ spring:
   application:
     name: mini-api-gateway
 
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true

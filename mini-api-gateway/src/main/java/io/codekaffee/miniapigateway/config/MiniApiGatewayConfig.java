@@ -29,6 +29,14 @@ public class MiniApiGatewayConfig {
         return builder
             .routes()
             .route(function)
+            .route(routeFunc("/cambio-service/**", "lb://cambio-service"))
+            .route(routeFunc("/book-service/**", "lb://book-service"))
             .build();
+    }
+
+
+
+    public Function<PredicateSpec, Buildable<Route>> routeFunc(String path, String toUri){
+        return p -> p.path(path).uri(toUri);
     }
 }
