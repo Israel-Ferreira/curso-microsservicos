@@ -35,3 +35,8 @@ spring:
 
 
 
+resilience4j:
+  retry:
+    instances:
+      default:
+        max-attempts: 5
