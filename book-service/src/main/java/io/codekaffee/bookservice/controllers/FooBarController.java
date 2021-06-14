@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FooBarController {
     
 
-    @GetMapping("/foo-bar")
+    @GetMapping("/foo-bar/retry")
     @Retry(name = "default", fallbackMethod = "fallbackMethod" )
     public ResponseEntity<String> fooBar(){
 
@@ -33,7 +33,20 @@ public class FooBarController {
 
 
 
-    public ResponseEntity<String> fallbackMethod(Exception e){
+    @GetMapping("/foo-bar/cb")
+    @CircuitBreaker(name = "default", fallbackMethod = "fallbackMethod")
+    public ResponseEntity<String> fooBarCircuitBreaker(){
+        log.info("Foo bar request is received");
+
+        var response = new RestTemplate()
+            .getForEntity("http://localhost:29222", String.class);
+
+
+        return response;
+    }
+
+
+    public ResponseEntity<String>fallbackMethod(Exception e){
         var msg = "Deu Ruim";
         return ResponseEntity.ok(msg);
     }
