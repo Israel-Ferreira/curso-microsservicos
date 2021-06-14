@@ -40,3 +40,4 @@ resilience4j:
     instances:
       default:
         max-attempts: 5
+        wait-duration: 50

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +18,7 @@ public class FooBarController {
     
 
     @GetMapping("/foo-bar")
-    @Retry(name = "default")
+    @Retry(name = "default", fallbackMethod = "fallbackMethod" )
     public ResponseEntity<String> fooBar(){
 
         log.info("Foo bar request is received");
@@ -28,5 +29,12 @@ public class FooBarController {
 
 
         return response;
-    } 
+    }
+
+
+
+    public ResponseEntity<String> fallbackMethod(Exception e){
+        var msg = "Deu Ruim";
+        return ResponseEntity.ok(msg);
+    }
 }
