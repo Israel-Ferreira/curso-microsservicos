@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,6 +45,21 @@ public class FooBarController {
 
 
         return response;
+    }
+
+
+    @GetMapping("/foo-bar/rl")
+    @RateLimiter(name = "rate-limit-ct", fallbackMethod = "fallbackMethod")
+    public ResponseEntity<String> fooBarRateLimit(){
+        return ResponseEntity.ok("Teste");
+    }
+
+
+    @GetMapping("/foo-bar/bulk-head")
+    @Bulkhead(name = "blk-head-foo", fallbackMethod = "fallbackMethod")
+    public ResponseEntity<String> fooBarBulkhead(){
+        System.out.println("Rodando BULK Head  ....");
+        return ResponseEntity.ok("Teste");
     }
 
 

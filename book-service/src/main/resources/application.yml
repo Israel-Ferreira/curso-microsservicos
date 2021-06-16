@@ -42,3 +42,14 @@ resilience4j:
         max-attempts: 5
         wait-duration: 1s
         enable-exponential-backoff: true
+
+  ratelimiter:
+    instances:
+      rate-limit-ct:
+        limit-for-period: 2
+        limit-refresh-period: 10s
+
+  bulkhead:
+    instances:
+      blk-head-foo:
+        max-concurrent-calls: 15
