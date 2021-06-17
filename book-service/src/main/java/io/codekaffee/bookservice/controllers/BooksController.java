@@ -18,7 +18,10 @@ import io.codekaffee.bookservice.models.Book;
 import io.codekaffee.bookservice.models.Cambio;
 import io.codekaffee.bookservice.services.BookService;
 import io.codekaffee.bookservice.services.CambioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "book-endpoint")
 @RestController
 @RequestMapping("/book-service")
 public class BooksController {
@@ -36,6 +39,7 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Find specific book by Id")
     public ResponseEntity<BookDTO> findBook(@PathVariable("id") Long id, @RequestParam(value = "currency", required = true, defaultValue = "BRL") String currency ){
         Book book = bookService.findBookById(id);
         Cambio cambio = cambioService.getCurrency(currency, book.getPrice());
@@ -50,7 +54,8 @@ public class BooksController {
 
 
     @PostMapping
-    public ResponseEntity<?> createBook(BookDTO bookDTO){
+    @Operation(summary = "Add new Book to database")
+    public ResponseEntity<Void> createBook(BookDTO bookDTO){
         Book book = bookService.createBook(bookDTO);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/" + book.getId())
