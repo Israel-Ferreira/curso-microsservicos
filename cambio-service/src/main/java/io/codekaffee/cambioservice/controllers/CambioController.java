@@ -2,6 +2,8 @@ package io.codekaffee.cambioservice.controllers;
 
 import io.codekaffee.cambioservice.dto.CambioDTO;
 import io.codekaffee.cambioservice.services.CurrencyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 
+
 @RestController
+@Tag(name="cambio-endpoint")
 @RequestMapping("/cambio-service")
 public class CambioController {
 
@@ -23,6 +27,7 @@ public class CambioController {
     private CurrencyService currencyService;
 
 
+    @Operation(summary = "Convert the price using currency")
     @GetMapping(value = "/convert")
     public ResponseEntity<CambioDTO> getCambio(
             @RequestParam(value = "amount", required = false) BigDecimal amount,
