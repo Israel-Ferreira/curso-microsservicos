@@ -9,4 +9,17 @@ eureka:
 spring:
   application:
     name: mini-api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: cambio-service
+          uri: lb://cambio-service
+          predicates:
+            - Path=/cambio-service/**
+
+        - id: book-service
+          uri: lb://book-service
+          predicates:
+            - Path=/book-service/**
+
 
