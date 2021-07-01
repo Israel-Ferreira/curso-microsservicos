@@ -53,3 +53,10 @@ resilience4j:
     instances:
       blk-head-foo:
         max-concurrent-calls: 15
+
+
+
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: book-service/v3/api-docs

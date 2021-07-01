@@ -32,3 +32,12 @@ spring:
     password: "root12345"
 
 
+
+
+
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: cambio-service/v3/api-docs
+
+
